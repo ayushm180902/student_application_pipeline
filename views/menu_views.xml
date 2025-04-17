@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Main Menu -->
+    <menuitem id="menu_student_pipeline_root"
+              name="Student Pipeline"
+              sequence="10"/>
+
+    <!-- Pipeline Menu -->
+    <menuitem id="menu_student_pipeline_process"
+              name="Pipeline"
+              parent="menu_student_pipeline_root"
+              action="action_process_pipeline"
+              sequence="10"/>
+
+    <!-- Student Menu -->
+    <menuitem id="menu_student_pipeline_student"
+              name="Students"
+              parent="menu_student_pipeline_root"
+              action="action_student"
+              sequence="20"/>
+
+    <!-- University Menu -->
+    <menuitem id="menu_student_pipeline_university"
+              name="Universities"
+              parent="menu_student_pipeline_root"
+              action="action_university"
+              sequence="30"/>
+
+    <!-- Configuration Menu -->
+    <menuitem id="menu_student_pipeline_config"
+              name="Configuration"
+              parent="menu_student_pipeline_root"
+              sequence="100"/>
+
+    <!-- Stages Menu under Configuration -->
+    <menuitem id="menu_student_pipeline_stage"
+              name="Application Stages"
+              parent="menu_student_pipeline_config"
+              action="action_stage"
+              sequence="10"/>
+</odoo>

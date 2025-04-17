@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_student_pipeline_student,student.pipeline.student,model_student_pipeline_student,base.group_user,1,1,1,1
+access_student_pipeline_university,student.pipeline.university,model_student_pipeline_university,base.group_user,1,1,1,1
+access_student_pipeline_stage,student.pipeline.stage,model_student_pipeline_stage,base.group_user,1,1,1,1
+access_student_pipeline_process,student.pipeline.process,model_student_pipeline_process,base.group_user,1,1,1,1

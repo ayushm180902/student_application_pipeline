@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Process Pipeline Form View -->
+    <record id="view_process_pipeline_form" model="ir.ui.view">
+        <field name="name">student.pipeline.process.form</field>
+        <field name="model">student.pipeline.process</field>
+        <field name="arch" type="xml">
+            <form string="Application">
+                <header>
+                    <field name="stage_id" widget="statusbar" options="{'clickable': '1'}"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_student" type="object" class="oe_stat_button" icon="fa-user">
+                            <field name="student_id" string="Student" widget="statinfo"/>
+                        </button>
+                        <button name="action_view_university" type="object" class="oe_stat_button" icon="fa-university">
+                            <field name="university_id" string="University" widget="statinfo"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="student_id"/>
+                            <field name="university_id"/>
+                            <field name="application_date"/>
+                        </group>
+                        <group>
+                            <field name="program_applied"/>
+                            <field name="expected_start_date"/>
+                            <field name="priority" widget="priority"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Documents">
+                            <group>
+                                <field name="documents_submitted"/>
+                                <field name="documents_notes"/>
+                            </group>
+                        </page>
+                        <page string="Notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Process Pipeline Kanban View -->
+    <record id="view_process_pipeline_kanban" model="ir.ui.view">
+        <field name="name">student.pipeline.process.kanban</field>
+        <field name="model">student.pipeline.process</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="stage_id" records_draggable="1" class="o_kanban_small_column" on_create="quick_create">
+                <field name="stage_id"/>
+                <field name="color"/>
+                <field name="priority"/>
+                <field name="student_id"/>
+                <field name="university_id"/>
+                <field name="is_won"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="#{kanban_color(record.color.raw_value)} oe_kanban_global_click">
+                            <div class="o_dropdown_kanban dropdown">
+                                <a class="dropdown-toggle o-no-caret btn" role="button" data-toggle="dropdown" title="Actions" aria-label="Actions">
+                                    <span class="fa fa-ellipsis-v"/>
+                                </a>
+                                <div class="dropdown-menu" role="menu">
+                                    <a t-if="widget.editable" role="menuitem" type="edit" class="dropdown-item">Edit</a>
+                                    <a t-if="widget.deletable" role="menuitem" type="delete" class="dropdown-item">Delete</a>
+                                    <div role="separator" class="dropdown-divider"/>
+                                    <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                </div>
+                            </div>
+                            <div class="oe_kanban_content">
+                                <div class="o_kanban_record_top mb-0">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title"><field name="name"/></strong>
+                                    </div>
+                                    <div class="o_kanban_record_bottom">
+                                        <div class="oe_kanban_bottom_left">
+                                            <field name="priority" widget="priority"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_body">
+                                    <div><strong>Student: </strong><field name="student_id"/></div>
+                                    <div><strong>University: </strong><field name="university_id"/></div>
+                                    <div><strong>Program: </strong><field name="program_applied"/></div>
+                                </div>
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+                                        <field name="application_date"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Process Pipeline list/List View -->
+    <record id="view_process_pipeline_list" model="ir.ui.view">
+        <field name="name">student.pipeline.process.list</field>
+        <field name="model">student.pipeline.process</field>
+        <field name="arch" type="xml">
+            <list string="Applications" default_order="application_date desc">
+                <field name="name"/>
+                <field name="student_id"/>
+                <field name="university_id"/>
+                <field name="stage_id"/>
+                <field name="program_applied"/>
+                <field name="application_date"/>
+                <field name="priority" widget="priority"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Process Pipeline Search View -->
+    <record id="view_process_pipeline_search" model="ir.ui.view">
+        <field name="name">student.pipeline.process.search</field>
+        <field name="model">student.pipeline.process</field>
+        <field name="arch" type="xml">
+            <search string="Search Applications">
+                <field name="name"/>
+                <field name="student_id"/>
+                <field name="university_id"/>
+                <field name="program_applied"/>
+                <separator/>
+                <filter string="Won" name="won" domain="[('is_won', '=', True)]"/>
+                <filter string="Not Won" name="not_won" domain="[('is_won', '=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Student" name="group_by_student" context="{'group_by': 'student_id'}"/>
+                    <filter string="University" name="group_by_university" context="{'group_by': 'university_id'}"/>
+                    <filter string="Stage" name="group_by_stage" context="{'group_by': 'stage_id'}"/>
+                    <filter string="Application Date" name="group_by_date" context="{'group_by': 'application_date'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Process Pipeline Action -->
+    <record id="action_process_pipeline" model="ir.actions.act_window">
+        <field name="name">Student Applications</field>
+        <field name="res_model">student.pipeline.process</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="context">{'search_default_not_won': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first student application!
+            </p>
+        </field>
+    </record>
+</odoo>
