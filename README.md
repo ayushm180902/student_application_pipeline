@@ -17,6 +17,3 @@ This module eliminates the complexities of manually tracking students' applicati
 ---
 
 This module is ideal for educational institutions, consultants, or any organization managing study abroad programs. It helps maintain transparency, reduces administrative overhead, and keeps all relevant information in one place for easy access.
-
----
-
